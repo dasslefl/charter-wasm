@@ -27,8 +27,6 @@ objdir="build"
 objfiles=""
 sourcefiles="tinyexpr/tinyexpr.c"
 
-mkdir "$objdir" >/dev/null 2>&1
-
 execute_echo() {
     echo $ $@
     $@
@@ -42,6 +40,7 @@ execute_echo() {
 }
 # in den Ordner des Skriptes springen
 cd "$(dirname "$0")"
+mkdir "$objdir" >/dev/null 2>&1
 
 if [ "$1" == "clean" ]; then
     echo "Cleaning up..."
