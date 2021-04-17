@@ -2,7 +2,7 @@
 
 # A simple, automatic caching build system for C / C++ applications
 # 2020 Florian Daßler (florian.dassler@s2020.tu-chemnitz.de)
-# Rev 4
+# Rev 5
 
 
 # Configuration
@@ -15,7 +15,11 @@ cppflags="-Wall"
 ld="emcc"
 ldflags="-lm"
 
-bin="bin/charter-wasm.js"
+ar="emar"
+arflags="-rsc"
+
+bin="build/charter-wasm.js"
+arfile="build/charter-wasm.a"
 
 srcdir="src"
 objdir="build"
@@ -36,6 +40,8 @@ execute_echo() {
         exit $exitcode
     fi
 }
+# in den Ordner des Skriptes springen
+cd "$(dirname "$0")"
 
 if [ "$1" == "clean" ]; then
     echo "Cleaning up..."
@@ -87,9 +93,14 @@ for srcfile in "${arr[@]}"; do
 done
 
 if [ "$files_changed" == "true" ]; then
-    echo "Linking everything together..."
-
-    execute_echo "$ld" "$cflags" -o "$bin" "$objfiles" "$add_objfiles" "$ldflags"
+    
+    if [ "$1" == "archive" ]; then
+        echo "Generating object Archive..."
+        execute_echo "$ar" "$arflags" "$arfile" "$objfiles" "$add_objfiles"
+    else
+        echo "Linking everything together..."
+        execute_echo "$ld" "$cflags" -o "$bin" "$objfiles" "$add_objfiles" "$ldflags"
+    fi
 
     echo "Cleaning up..."
 
