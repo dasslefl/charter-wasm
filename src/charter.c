@@ -1,5 +1,5 @@
 #include "charter.h"
-#include "tinyexpr/tinyexpr.h"
+#include "../tinyexpr/tinyexpr.h"
 
 #include <stdlib.h>
 #include <stdio.h>
