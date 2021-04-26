@@ -9,8 +9,8 @@
 cc="emcc"
 cppc="em++"
 
-cflags="-Wall"
-cppflags="-Wall"
+cflags="-Wall -O3"
+cppflags="-Wall -O3"
 
 ld="emcc"
 ldflags="-lm"
